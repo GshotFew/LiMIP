@@ -36,7 +36,7 @@ scikit-learn==0.20.2
 To train for sequence [SetCover_0.05,SetCover_0.075, SetCover_0.1,   SetCover_0.125, SetCover_0.15, SetCover_0.2]
 
 
-` python3 -u train_LL.py -g 1 --data_path data/ --prob_seq setcover_densize_0.05-setcover_densize_0.075-setcover_densize_0.1-setcover_densize_0.125-setcover_densize_0.15-setcover_densize_0.2 `
+` python3 -u train.py -g 1 --data_path data/ --prob_seq setcover_densize_0.05-setcover_densize_0.075-setcover_densize_0.1-setcover_densize_0.125-setcover_densize_0.15-setcover_densize_0.2 `
 
 
 The prob_seq consists of different tasks separated by `-`

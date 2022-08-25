@@ -44,6 +44,6 @@ The prob_seq consists of different tasks separated by `-`
 
 To evaluate the model on test instance of setcover with density 0.05, run the following
 
-* ` python3 -u 05_evaluate_any-cont-GAT.py setcover_densize --g 3  --path_load trained_models/MODEL_setcover_densize_0.05_setcover_densize_0.1_setcover_densize_0.15_setcover_densize_0.2/GAT_baseline_torch/0/ --density 0.05 --epoch_load checkpoint.pkl `
+* ` python3 -u 05_evaluate.py setcover_densize --g 1  --path_load trained_models/MODEL_setcover_densize_0.05_setcover_densize_0.1_setcover_densize_0.15_setcover_densize_0.2/GAT_baseline_torch/0/ --density 0.05 --epoch_load checkpoint.pkl `
 
 

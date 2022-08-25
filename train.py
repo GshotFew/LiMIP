@@ -190,10 +190,6 @@ def reservoir_insert(reservoir_locations_array, memory_size, memory_input_logits
                 reservoir_locations_array[random_int] = index_of_new_task
                 dict_memory_logits_kd[index_of_new_task].append(new_CO_element)
 
-    print(" samples_seen_for_memory ", samples_seen_for_memory)
-    print(" reservoir_locations_array ", reservoir_locations_array)
-    print(" counter count types ", dict((i, reservoir_locations_array.count(i)) for i in reservoir_locations_array))
-
 def observe(t, dict_model_object, previous_data_loader, new_data_loader, dict_memory, dict_memory_logits_kd, reservoir_locations_array, device):
     net = dict_model_object['net']
     optimizer = dict_model_object['optimizer']
@@ -209,30 +205,19 @@ def observe(t, dict_model_object, previous_data_loader, new_data_loader, dict_me
     old_task_weight = dict_model_object['old_task_weight']
     
     kl_weight = 1
-    print("kl_weight ", kl_weight)
-    print("lambda_l ", lambda_l)
-    print("lambda_att ", lambda_att)
 
-    print("old_task_weight ", old_task_weight)
-    
     
 
 
     beta = 0#0.0005
     task_loss_lambda = 1#0.01
     prob_of_old_task= 0.99# 1.1# 1.1#0.5 #
-    print("prob_of_old_task" , prob_of_old_task)
     net.train()
-    print(" t ", t)
-    print(" current_task ", current_task)
 
      
     samples_from_reservoir = dict_model_object['samples_from_reservoir']
     if(t==2):
         samples_from_reservoir=dict_model_object['samples_from_reservoir']
-        
-    
-    print(" samples_from_reservoir ", samples_from_reservoir)
 
 
     if t != current_task:
@@ -260,7 +245,6 @@ def observe(t, dict_model_object, previous_data_loader, new_data_loader, dict_me
                                      0)  # filter candidate variables
             logits = model.pad_output(logits, n_cands)  # apply padding now
             loss = _loss_fn(logits, best_cands, weights)
-            print("old loss ", loss)
             loss.backward()
 
         
@@ -400,7 +384,6 @@ def observe(t, dict_model_object, previous_data_loader, new_data_loader, dict_me
         true_bestscore = true_bestscore.cpu().numpy()
   
 
-    print("total loss", loss)
 
 
 if __name__ == '__main__':
@@ -543,16 +526,9 @@ if __name__ == '__main__':
     number_of_epochs = args.number_of_epochs
 
     memory_size_buffer = args.memory_size_buffer
-#     print(" memory_size_buffer ", memory_size_buffer)
-#     print('lambda_l ', lambda_l)
-#     print('lambda_att ', lambda_att)
-#     print('old_task_weight', old_task_weight)
 
-
-#     print("experience_size_of_task ", experience_size_of_task)
 
     samples_seen_for_memory = 0
-    # print(" samples_seen_for_memory ", samples_seen_for_memory)
 
     problem_folders = {
 
@@ -617,9 +593,7 @@ if __name__ == '__main__':
     log(f"seed: {args.seed}", logfile)
     log(f"l2 {args.l2}", logfile)
 
-    print(" number_of_epochs each task ", number_of_epochs)
     
-    print('args.lam_samples', args.lam_samples)
 
     ### NUMPY / TORCH SETUP ###
     if args.gpu == -1:
@@ -770,7 +744,6 @@ if __name__ == '__main__':
             if(epoch%10==0): 
 
                 for prev_task_iterator in range(0, index + 1):
-                    print("prev_task ", prev_task_iterator)
                     # model.dict_norm_task = dict_norm_task[prev_task_iterator]
                     valid_loss, valid_kacc = process(model, dict_task_wise_valid_data_loaders[prev_task_iterator],
                                                      top_k, None)
@@ -778,7 +751,6 @@ if __name__ == '__main__':
                         [f" acc@{k}: {acc:0.3f}" for k, acc in zip(top_k, valid_kacc)]), logfile)
 
                     if(prev_task_iterator==index):
-                        print("scheduler called")
                         scheduler.step(valid_loss)
                         
                         if(valid_loss>=best_loss):
@@ -800,21 +772,16 @@ if __name__ == '__main__':
 
             if(epoch%3 ==0):
             # if(epoch%3 ==0):
-                # model.dict_norm_task = dict_norm_task[index]
-                print("saving model index {}  epoch {}".format(index, epoch))
-                # temmporary dont' save
                 model.save_state(os.path.join(running_dir, 'params_at_task{}_epoch{}.pkl'.format(index, epoch)))
                 model.save_state(os.path.join(running_dir, 'checkpoint.pkl'))
 
 
                 
             if(continue_running==False):
-                print('early stopping')
                 break
 
 
         memory_input_logits = add_logits_to_memory(model, memory_data, top_k, None)
-        print(" memory_data", len(memory_data))
 
 
         reservoir_insert(reservoir_locations_array, memory_size_buffer, memory_input_logits, dict_memory_logits_kd,
@@ -822,12 +789,9 @@ if __name__ == '__main__':
 
 
 
-        print('args.lam_samples', args.lam_samples)
         sampled_reg_files = rng.choice(sampled_memory_files,args.lam_samples, replace=False)
         previous_data = Dataset(sampled_reg_files)
-        print("previous_data reg len ", len(sampled_reg_files))
         
         previous_data_loader = torch.utils.data.DataLoader(previous_data, batch_size=batch_size,
                                                            shuffle=False, num_workers=num_workers,
                                                            collate_fn=load_batch)
-        print("index is ", index)

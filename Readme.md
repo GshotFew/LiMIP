@@ -35,7 +35,7 @@ scikit-learn==0.20.2
 To train for sequence [SetCover_0.05,SetCover_0.075, SetCover_0.1,   SetCover_0.125, SetCover_0.15, SetCover_0.2]
 
 
-` python3 -u train.py -g 1 --data_path data/samples_1.0/ --prob_seq setcover_densize_0.05-setcover_densize_0.075-setcover_densize_0.1-setcover_densize_0.125-setcover_densize_0.15-setcover_densize_0.2 `
+` python -u train.py -g 1 --data_path data/samples_1.0/ --prob_seq setcover_densize_0.05-setcover_densize_0.075-setcover_densize_0.1-setcover_densize_0.125-setcover_densize_0.15-setcover_densize_0.2 `
 
 
 The prob_seq consists of different tasks separated by `-`
@@ -44,6 +44,6 @@ The prob_seq consists of different tasks separated by `-`
 
 To evaluate the model on test instance of setcover with density 0.05, run the following
 
-* ` python3 -u evaluate.py setcover_densize --g 1  --path_load trained_models/MODEL_setcover_densize_0.05_setcover_densize_0.1_setcover_densize_0.15_setcover_densize_0.2/GAT_baseline_torch/0/ --density 0.05 --epoch_load checkpoint.pkl `
+* ` python -u evaluate.py setcover_densize --g 1  --path_load trained_models/MODEL_setcover_densize_0.05_setcover_densize_0.1_setcover_densize_0.15_setcover_densize_0.2/GAT_baseline_torch/0/ --density 0.05 --epoch_load checkpoint.pkl `
 
 

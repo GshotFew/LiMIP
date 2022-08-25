@@ -559,24 +559,6 @@ if __name__ == '__main__':
         
         
         
-        'faccost_5':'80_80_5',
-        'faccost_10':'80_80_5',
-        'faccost_15':'80_80_5',
-        'faccost_20':'80_80_5',
-        'faccost_35':'80_80_5',
-        'faccost_45':'80_80_5',
-        'faccost_50':'80_80_5',
-        'faccost_100':'80_80_5',
-        'faccost_80':'80_80_5',
-        'faccost_500':'80_80_5',
-        
-        
-        
-        'facdem_5_10':'100_100_5',
-        'facdem_30_35':'100_100_5',
-        
-        
-        
         'facdem_5_10_40_50':'100_100_5',
         'facdem_30_35_50_55':'100_100_5',
         'facdem_60_65_80_90':'100_100_5',
@@ -585,12 +567,6 @@ if __name__ == '__main__':
         
         'facdem_maxopen_80_90_100_110_95':'100_100_5',
         
-        
-        'indset_3': '750_3',
-        'indset_4': '750_4',        
-        'indset_5': '750_5',
-        'indset_6': '750_6',
-        'indset_8': '750_8',
         
 
               
@@ -620,9 +596,6 @@ if __name__ == '__main__':
 
     # DIRECTORY NAMING
     modeldir = f"{args.model}"
-    if args.l2 > 0:
-        modeldir = f"{modeldir}_l2_{args.l2}"
-
     running_dir = f"trained_models/MODEL_{str('_'.join(problems_sequence))}/{modeldir}/{args.seed}"
     print(" running_dir ", running_dir)
     os.makedirs(running_dir)

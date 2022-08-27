@@ -256,7 +256,7 @@ if __name__ == '__main__':
 
 
  
-    elif args.problem == 'indsetnewba':
+    if args.problem == 'indsetnewba':
         instances += [{'type': 'small', 'path': f"data/instances/indsetnewba_{args.affinity}/transfer_{args.indnodes}_{args.affinity}/instance_{i+1}.lp"} for i in range(20)]
         
   

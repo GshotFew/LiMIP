@@ -209,9 +209,9 @@ def observe(t, dict_model_object, previous_data_loader, new_data_loader, dict_me
     
 
 
-    beta = 0#0.0005
-    task_loss_lambda = 1#0.01
-    prob_of_old_task= 0.99# 1.1# 1.1#0.5 #
+    beta = 0
+    task_loss_lambda = 1
+    prob_of_old_task= 0.99
     net.train()
 
      
@@ -588,7 +588,6 @@ if __name__ == '__main__':
     log(f"patience : {patience }", logfile)
     log(f"early_stopping : {early_stopping }", logfile)
     log(f"top_k: {top_k}", logfile)
-    # log(f"problem: {args.problem}", logfile)
     log(f"gpu: {args.gpu}", logfile)
     log(f"seed: {args.seed}", logfile)
     log(f"l2 {args.l2}", logfile)
@@ -636,15 +635,12 @@ if __name__ == '__main__':
     
     dict_model_object['old_task_weight'] = old_task_weight
     
-    # print(' args samples_from_reservoir', args.samples_from_reservoir)
     dict_model_object['samples_from_reservoir'] = args.samples_from_reservoir
     
 
-    ##;
 
     previous_data_loader = None
     dict_task_wise_valid_data_loaders = {}
-    # dict_norm_task = {}
     dict_memory = {}
     dict_memory_logits_kd = {}
 
@@ -652,9 +648,6 @@ if __name__ == '__main__':
 
     for index, problem in enumerate(problems_sequence):
 
-        #
-        # optimizer, added now
-        # print("new optimizer ")
         optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=args.l2)
         scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.2, patience=patience,
                                                                verbose=True)
@@ -669,7 +662,6 @@ if __name__ == '__main__':
         print(" problem ", problem)
         problem_folder = problem_folders[problem]
         print(" problem_folder ", problem_folder)
-        # dict_norm_task[index] = {}
 
 
         ### SET-UP DATASET ###
@@ -677,7 +669,6 @@ if __name__ == '__main__':
         if args.data_path:
             dir = f"{args.data_path}/{problem}/{problem_folder}"
             
-        # print('dir', dir)
 
         train_files = list(pathlib.Path(f'{dir}/train').glob('sample_*.pkl'))
         valid_files = list(pathlib.Path(f'{dir}/valid').glob('sample_*.pkl'))
@@ -701,12 +692,9 @@ if __name__ == '__main__':
                                 shuffle = False, num_workers = num_workers, collate_fn = load_batch)
 
 
-        print(" train_files ", len(train_files))
         epoch_train_files = rng.choice(train_files, epoch_size * batch_size, replace=True)
-        print(" epoch_train_files ", len(epoch_train_files))
 
         sampled_memory_files = rng.choice(train_files, experience_size_of_task, replace=False)
-        print("sampled_memory_files ", len(sampled_memory_files))
 
 
         train_data = Dataset(epoch_train_files)
@@ -718,20 +706,15 @@ if __name__ == '__main__':
         dict_memory[index] = memory_data
 
         valid_loss, valid_kacc = process(model, valid_data, top_k, None)
-        # valid_loss, valid_kacc = process(model, train_data, top_k, None)
         log(f"VALID LOSS: {valid_loss:0.3f} " + "".join([f" acc@{k}: {acc:0.3f}" for k, acc in zip(top_k, valid_kacc)]), logfile)
 
  
-
-        # print(' number_of_epochs ', number_of_epochs)
-        
         continue_running = True
         
         for epoch in range(number_of_epochs):#max_epochs + 1):
             
             
             print("epoch ", epoch)
-            # model.dict_norm_task = dict_norm_task[index]
 
             epoch_train_files = rng.choice(train_files, epoch_size * batch_size, replace=True)
             train_data = Dataset(epoch_train_files)
@@ -744,7 +727,6 @@ if __name__ == '__main__':
             if(epoch%10==0): 
 
                 for prev_task_iterator in range(0, index + 1):
-                    # model.dict_norm_task = dict_norm_task[prev_task_iterator]
                     valid_loss, valid_kacc = process(model, dict_task_wise_valid_data_loaders[prev_task_iterator],
                                                      top_k, None)
                     log(f"VALID LOSS: {valid_loss:0.3f} " + "".join(
@@ -761,17 +743,13 @@ if __name__ == '__main__':
                                 break
                             if plateau_count % patience == 0:
                                 pass
-                                # lr *= 0.2
-                                # log(f"  {plateau_count} epochs without improvement, decreasing learning rate to {lr}", logfile)
                         else:
                             best_loss = valid_loss
                             plateau_count=0
 
                             
-            # if(epoch%10 ==0):
 
             if(epoch%3 ==0):
-            # if(epoch%3 ==0):
                 model.save_state(os.path.join(running_dir, 'params_at_task{}_epoch{}.pkl'.format(index, epoch)))
                 model.save_state(os.path.join(running_dir, 'checkpoint.pkl'))
 

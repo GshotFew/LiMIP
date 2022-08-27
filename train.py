@@ -27,7 +27,7 @@ import pickle
 random.seed(0)
 
 
-def add_logits_to_memory(model, dataloader, top_k, optimizer=None):
+def logits_to_memory(model, dataloader, top_k, optimizer=None):
     """
     Executes a forward and backward pass of model over the dataset.
 
@@ -753,18 +753,15 @@ if __name__ == '__main__':
                 model.save_state(os.path.join(running_dir, 'params_at_task{}_epoch{}.pkl'.format(index, epoch)))
                 model.save_state(os.path.join(running_dir, 'checkpoint.pkl'))
 
-
                 
             if(continue_running==False):
                 break
 
 
-        memory_input_logits = add_logits_to_memory(model, memory_data, top_k, None)
-
+        memory_input_logits = logits_to_memory(model, memory_data, top_k, None)
 
         reservoir_insert(reservoir_locations_array, memory_size_buffer, memory_input_logits, dict_memory_logits_kd,
                              index)
-
 
 
         sampled_reg_files = rng.choice(sampled_memory_files,args.lam_samples, replace=False)
@@ -773,3 +770,4 @@ if __name__ == '__main__':
         previous_data_loader = torch.utils.data.DataLoader(previous_data, batch_size=batch_size,
                                                            shuffle=False, num_workers=num_workers,
                                                            collate_fn=load_batch)
+        

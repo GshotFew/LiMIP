@@ -29,25 +29,7 @@ random.seed(0)
 
 def logits_to_memory(model, dataloader, top_k, optimizer=None):
     """
-    Executes a forward and backward pass of model over the dataset.
-
-    Parameters
-    ----------
-    model : model.BaseModel
-        A base model, which may contain some model.PreNormLayer layers.
-    dataloader : torch.utils.data.DataLoader
-        Dataset to use for training the model.
-    top_k : list
-        list of `k` (int) to estimate for accuracy using these many candidates
-    optimizer :  torch.optim
-        optimizer to use for SGD. No gradient computation takes place if its None.
-
-    Return
-    ------
-    mean_loss : np.float
-        mean loss of model on data in dataloader
-    mean_kacc : np.array
-        computed accuracy for `top_k` candidates
+   
     """
     mean_loss = 0
     mean_kacc = np.zeros(len(top_k))
@@ -91,25 +73,7 @@ def logits_to_memory(model, dataloader, top_k, optimizer=None):
 
 def process(model, dataloader, top_k, optimizer=None):
     """
-    Executes a forward and backward pass of model over the dataset.
-
-    Parameters
-    ----------
-    model : model.BaseModel
-        A base model, which may contain some model.PreNormLayer layers.
-    dataloader : torch.utils.data.DataLoader
-        Dataset to use for training the model.
-    top_k : list
-        list of `k` (int) to estimate for accuracy using these many candidates
-    optimizer :  torch.optim
-        optimizer to use for SGD. No gradient computation takes place if its None.
-
-    Return
-    ------
-    mean_loss : np.float
-        mean loss of model on data in dataloader
-    mean_kacc : np.array
-        computed accuracy for `top_k` candidates
+   
     """
     mean_loss = 0
     mean_kacc = np.zeros(len(top_k))
@@ -368,11 +332,9 @@ def observe(t, dict_model_object, previous_data_loader, new_data_loader, dict_me
             for i, p in enumerate(net.parameters()):
 
                 
-                #att
-                l =  fisher_loss[tt][i] # + lambda_att * fisher_att[tt][i]
+                l =  fisher_loss[tt][i] 
                 l = l * ((p - optpar[tt][i]).pow(2))
                 fisher_loss_value =  (l.sum())*lambda_l
-                # fisher_loss_value =  fisher_loss_value*
                 fisher_loss_value.backward()
 
         optimizer.step()
@@ -656,7 +618,6 @@ if __name__ == '__main__':
         
         dict_model_object['optimizer'] = optimizer
         dict_model_object['scheduler'] = scheduler
-        #
 
         print("index top ", index)
         print(" problem ", problem)
@@ -711,7 +672,7 @@ if __name__ == '__main__':
  
         continue_running = True
         
-        for epoch in range(number_of_epochs):#max_epochs + 1):
+        for epoch in range(number_of_epochs):
             
             
             print("epoch ", epoch)

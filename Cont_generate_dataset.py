@@ -504,58 +504,14 @@ if __name__ == "__main__":
     
     basedir= "data/samples_{}".format(node_record_prob)
     # get instance filenames
-    if args.problem == 'setcover':
-        instances_train = glob.glob('data/instances/setcover_{}/train_500r_1000c_{}d/*.lp'.format(density,density))
-        instances_valid = glob.glob('data/instances/setcover_{}/valid_500r_1000c_{}d/*.lp'.format(density,density))
-        instances_test = glob.glob('data/instances/setcover_{}/test_500r_1000c_{}d/*.lp'.format(density,density))
-        out_dir = f'{basedir}/setcover_{density}/500r_1000c_{density}d'
+ 
+    if args.problem == 'setcover_densize':
+        instances_train = glob.glob('data/instances/setcover_densize_{}/train_700r_800c_{}d/*.lp'.format(density,density))
+        instances_valid = glob.glob('data/instances/setcover_densize_{}/valid_700r_800c_{}d/*.lp'.format(density,density))
+        instances_test = glob.glob('data/instances/setcover_densize_{}/test_700r_800c_{}d/*.lp'.format(density,density))
+        out_dir = f'{basedir}/setcover_densize_{density}/700r_800c_{density}d'
 
-    elif args.problem == 'cauctions':
-        instances_train = glob.glob('data/instances/cauctions_{}/train_100_500/*.lp'.format(add_item_prob))
-        instances_valid = glob.glob('data/instances/cauctions_{}/valid_100_500/*.lp'.format(add_item_prob))
-        instances_test = glob.glob('data/instances/cauctions_{}/test_100_500/*.lp'.format(add_item_prob))
-        out_dir = f'{basedir}/cauctions_{add_item_prob}/100_500'
-
-    elif args.problem == 'indset':
-        instances_train = glob.glob('data/instances/indset_{}/train_750_{}/*.lp'.format(affinity,affinity))
-        instances_valid = glob.glob('data/instances/indset_{}/valid_750_{}/*.lp'.format(affinity,affinity))
-        instances_test = glob.glob('data/instances/indset_{}/test_750_{}/*.lp'.format(affinity,affinity))
-        out_dir = f'{basedir}/indset_{affinity}/750_{affinity}'
-
-    elif args.problem == 'facilities':
-        instances_train = glob.glob('data/instances/facilities_{}/train_100_100_{}/*.lp'.format(ratio, ratio))
-        instances_valid = glob.glob('data/instances/facilities_{}/valid_100_100_{}/*.lp'.format(ratio, ratio))
-        instances_test = glob.glob('data/instances/facilities_{}/test_100_100_{}/*.lp'.format(ratio, ratio))
-        out_dir = f'{basedir}/facilities_{ratio}/100_100_{ratio}'
-        time_limit = 600
         
-    elif args.problem == 'facvers':
-        instances_train = glob.glob('data/instances/facvers_{}/train_100_{}_5/*.lp'.format(number_of_facilities, number_of_facilities))
-        instances_valid = glob.glob('data/instances/facvers_{}/valid_100_{}_5/*.lp'.format(number_of_facilities, number_of_facilities))
-        instances_test = glob.glob('data/instances/facvers_{}/test_100_{}_5/*.lp'.format(number_of_facilities, number_of_facilities))
-        out_dir = f'{basedir}/facvers_{number_of_facilities}/100_{number_of_facilities}_5'
-        time_limit = 600
-
-    elif args.problem == 'faccost':
-        faccost= args.faccost
-        number_of_facilities =80
-        print('faccost', faccost)
-        instances_train = glob.glob('data/instances/faccost_{}/train_80_80_5/*.lp'.format(faccost))
-        instances_valid = glob.glob('data/instances/faccost_{}/valid_80_80_5/*.lp'.format(faccost))
-        instances_test = glob.glob('data/instances/faccost_{}/test_80_80_5/*.lp'.format(faccost))
-        out_dir = f'{basedir}/faccost_{faccost}/80_80_5'
-        time_limit = 600
-        
-    elif args.problem == 'faccostbig':
-        faccost= args.faccost
-        number_of_facilities =100
-        print('faccost', faccost)
-        instances_train = glob.glob('data/instances/faccostbig_{}/train_100_100_5/*.lp'.format(faccost))
-        instances_valid = glob.glob('data/instances/faccostbig_{}/valid_100_100_5/*.lp'.format(faccost))
-        instances_test = glob.glob('data/instances/faccostbig_{}/test_100_100_5/*.lp'.format(faccost))
-        out_dir = f'{basedir}/faccostbig_{faccost}/100_100_5'
-        time_limit = 600
-
     elif args.problem == 'facdem':
         facdemlow = args.facdemlow
         facdemhigh = args.facdemhigh
@@ -605,44 +561,8 @@ if __name__ == "__main__":
         
         print('instances_train', instances_train)
 
-        
-        
-    elif args.problem == 'facdemnofix':
-        facdemlow = args.facdemlow
-        facdemhigh = args.facdemhigh
-        number_of_facilities =100
-        print('facdemlow', facdemlow)
-        print('facdemhigh', facdemhigh)
-        instances_train = glob.glob('data/instances/facdemnofix_{}_{}/train_100_100_5/*.lp'.format(facdemlow,facdemhigh))
-        instances_valid = glob.glob('data/instances/facdemnofix_{}_{}/valid_100_100_5/*.lp'.format(facdemlow,facdemhigh))
-        instances_test = glob.glob('data/instances/facdemnofix_{}_{}/test_100_100_5/*.lp'.format(facdemlow,facdemhigh))
-        out_dir = f'{basedir}/facdemnofix_{facdemlow}_{facdemhigh}/100_100_5'
-        time_limit = 600
-        
-        
-    elif args.problem == 'tsp':
-        # faccost= args.faccost
-        number_of_cities =args.tsp_num_cities
-        modes = args.tsp_num_modes
-        
-        print('number_of_cities', number_of_cities)
-        print('modes', modes)
-        # print('faccost', faccost)
-        instances_train = glob.glob('data/instances/tsp_{}_{}/train_{}/*.lp'.format( number_of_cities,modes, modes))
-        instances_valid = glob.glob('data/instances/tsp_{}_{}/valid_{}/*.lp'.format(number_of_cities, modes, modes))
-        
-        print('instances_train',instances_train)
-        
-        out_dir = f'{basedir}/tsp_{number_of_cities}_{modes}/{modes}'
-        print('out_dir', out_dir)
-        time_limit = 600
 
-    elif args.problem == 'setcover_densize':
-        instances_train = glob.glob('data/instances/setcover_densize_{}/train_700r_800c_{}d/*.lp'.format(density,density))
-        instances_valid = glob.glob('data/instances/setcover_densize_{}/valid_700r_800c_{}d/*.lp'.format(density,density))
-        instances_test = glob.glob('data/instances/setcover_densize_{}/test_700r_800c_{}d/*.lp'.format(density,density))
-        out_dir = f'{basedir}/setcover_densize_{density}/700r_800c_{density}d'
-
+ 
         
     elif args.problem == 'indsetnewba':
         instances_train = glob.glob('data/instances/indsetnewba_{}/train_{}_{}/*.lp'.format(affinity,indnodes, affinity))

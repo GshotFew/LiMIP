@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 import torch.nn.functional as F
-from learn2branch.utilities import log, init_scip_params, extract_state, valid_seed, compute_extended_variable_features, \
+from scripts.utilities import log, init_scip_params, extract_state, valid_seed, compute_extended_variable_features, \
                         preprocess_variable_features, extract_khalil_variable_features
 
 def _preprocess(state, mode='min-max-1'):

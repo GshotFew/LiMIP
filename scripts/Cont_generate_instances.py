@@ -737,7 +737,7 @@ if __name__ == '__main__':
     rng = np.random.RandomState(args.seed)
 
 
-    elif args.problem == 'indsetnewba':
+    if args.problem == 'indsetnewba':
         # number_of_nodes = 750
         number_of_nodes = args.indnodes
         # affinity = 4

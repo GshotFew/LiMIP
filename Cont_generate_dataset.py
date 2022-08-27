@@ -28,7 +28,6 @@ class VanillaFullstrongBranchingDataCollector(scip.Branchrule):
         self.rng = rng
         self.iteration_counter = 0
         
-        print('self.query_expert_prob ', self.query_expert_prob )
 
     def branchinit(self):
         self.ndomchgs = 0
@@ -130,7 +129,6 @@ def make_samples(in_queue, out_queue, node_record_prob=1):
     out_queue : multiprocessing.Queue
         Output queue in which to send samples.
     """
-    print(' node_record_prob',node_record_prob )
     while True:
         episode, instance, seed, time_limit, outdir, rng = in_queue.get()
 
@@ -142,7 +140,6 @@ def make_samples(in_queue, out_queue, node_record_prob=1):
         m.setRealParam('limits/time', time_limit)
         m.setLongintParam('limits/nodes', node_limit)
 
-        # print('working')
         branchrule = VanillaFullstrongBranchingDataCollector(rng, node_record_prob)
         m.includeBranchrule(
             branchrule=branchrule,
@@ -270,7 +267,6 @@ def collect_samples(instances, outdir, rng, n_samples, n_jobs, time_limit, node_
     time_limit : int
         maximum time for which to solve an instance while collecting data
     """
-    print(' inside collect samples node_record_prob ', node_record_prob)
     os.makedirs(outdir, exist_ok=True)
 
     # start workers
@@ -500,7 +496,6 @@ if __name__ == "__main__":
 
     node_record_prob = args.node_record_prob_train#1.0
 
-    print(' node_record_prob ', node_record_prob)
     
     basedir= "data/samples_{}".format(node_record_prob)
     # get instance filenames
@@ -520,11 +515,7 @@ if __name__ == "__main__":
         facdemcaphigh = args.facdemcaphigh
         
         number_of_facilities =100
-        print('facdemlow', facdemlow)
-        print('facdemhigh', facdemhigh)
-        
-        print('facdemcaplow = args.facdemcaplow', facdemcaplow )
-        print('facdemcaphigh = args.facdemcaphigh', facdemcaphigh )
+      
         
         instances_train = glob.glob('data/instances/facdem_{}_{}_{}_{}/train_100_100_5/*.lp'.format(facdemlow,facdemhigh,facdemcaplow,facdemcaphigh))
         instances_valid = glob.glob('data/instances/facdem_{}_{}_{}_{}/valid_100_100_5/*.lp'.format(facdemlow,facdemhigh,facdemcaplow,facdemcaphigh))
@@ -543,13 +534,7 @@ if __name__ == "__main__":
         facmaxopen = args.facmaxopen
         
         number_of_facilities =100
-        print('facdemlow', facdemlow)
-        print('facdemhigh', facdemhigh)
-        
-        print('facdemcaplow = args.facdemcaplow', facdemcaplow )
-        print('facdemcaphigh = args.facdemcaphigh', facdemcaphigh )
-        print('facmaxopen', facmaxopen)
-        
+      
         instances_train = glob.glob('data/instances/facdem_maxopen{}_{}_{}_{}_{}/train_100_100_5/*.lp'.format(facdemlow,facdemhigh,facdemcaplow,facdemcaphigh,facmaxopen ))
         instances_valid = glob.glob('data/instances/facdem_maxopen{}_{}_{}_{}_{}/valid_100_100_5/*.lp'.format(facdemlow,facdemhigh,facdemcaplow,facdemcaphigh, facmaxopen))
         instances_test = glob.glob('data/instances/facdem_maxopen{}_{}_{}_{}_{}/test_100_100_5/*.lp'.format(facdemlow,facdemhigh,facdemcaplow,facdemcaphigh, facmaxopen))
@@ -574,9 +559,6 @@ if __name__ == "__main__":
     else:
         raise NotImplementedError
 
-    print(f"{len(instances_train)} train instances for {train_size} samples")
-    print(f"{len(instances_valid)} validation instances for {valid_size} samples")
-    # print(f"{len(instances_test)} test instances for {test_size} samples")
 
     rng = np.random.RandomState(args.seed + 1)
     collect_samples(instances_train, out_dir +"/train", rng, train_size, args.njobs, time_limit, node_record_prob)

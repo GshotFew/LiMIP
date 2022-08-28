@@ -225,7 +225,7 @@ if __name__ == '__main__':
         '-time_limit', '--time_limit',
         help='time_limit',
         type=int,
-        default=-1,
+        default=2700,
     )
     
     args = parser.parse_args()

@@ -382,7 +382,7 @@ if __name__ == '__main__':
                 m.setIntParam('display/verblevel', 0)
                 m.readProblem(f"{instance['path']}")
                 utilities.init_scip_params(m, seed=policy['seed'])
-                m.setIntParam('timing/clocktype', 1)  # 1: CPU user seconds, 2: wall clock time
+                m.setIntParam('timing/clocktype', 1)  
                 m.setRealParam('limits/time', time_limit)
 
                 brancher = PolicyBranching(policy, device)

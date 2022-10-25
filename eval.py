@@ -231,10 +231,9 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     instances = []
-    seeds = [0,1,2,3,4]#, 1, 2]
+    seeds = [0,1,2,3,4]
     gcnn_models = [args.model_name]
-    time_limit = args.time_limit #2700
-    
+    time_limit = args.time_limit     
 
     ## OUTPUT
     device = "CPU" if args.gpu == -1 else "GPU"
